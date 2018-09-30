@@ -1,0 +1,3 @@
+Term {doc_freq}	 -> [document_list]
+asu {1}		 -> [1]
+google {1}		 -> [1]
