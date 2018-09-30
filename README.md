@@ -1,4 +1,4 @@
-# InvertedSearchIndexQueryEvaluation
+# PositionalIndexQueryEvaluation
 
 Description:
 

@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -20,6 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.lemurproject.kstem.KrovetzStemmer;
+
+import com.sfsu.searchengines.model.DocumentRank;
 
 /**
  * @author supritha This class runs the search engine program.
@@ -64,7 +67,7 @@ public class SearchEngine {
 		writer.close();
 	}
 	
-	public Map<Integer, Double> getDocumentRankingMap(List<String> proximityTerms, 
+	public List<DocumentRank> getDocumentRankingMap(List<String> proximityTerms, 
 			List<String> regularTerms) 
 	{
 		Set<Integer> documentSet = new HashSet<>();
@@ -85,11 +88,12 @@ public class SearchEngine {
 			searchTerms.add(stemmer.stem(regularTerm));
 		}
 		
-		Map<Integer, Double> documentRankingMap = new HashMap<>();
+		List<DocumentRank> rankedDocuments = new ArrayList<>();
 		FreeTextQueryEvaluation freeTextQueryEvaluation = new FreeTextQueryEvaluation();
-		documentRankingMap = freeTextQueryEvaluation.getDocumentRanking(searchTerms, documentSet, positionalIndex);
-		System.out.println(documentRankingMap);
-		return documentRankingMap;
+		rankedDocuments = freeTextQueryEvaluation.getDocumentRanking(searchTerms, documentSet, positionalIndex);
+		Collections.sort(rankedDocuments);
+		System.out.println(rankedDocuments);
+		return rankedDocuments;
 	}
 
 	
@@ -117,31 +121,6 @@ public class SearchEngine {
 		}
 		return normalTerms;
 	}
-
-//	/**
-//	 * This method takes the list of document numbers and prints the list as
-//	 * [DOC1, DOC2, DOC3]
-//	 * 
-//	 * @param docList
-//	 * @return string formatted list of document names.
-//	 */
-//	private String stringifyDocList(List<Integer> docList) {
-//		if (docList == null || docList.size() == 0)
-//		{
-//			return "[]";
-//		}
-//		if (docList.size() == 1) {
-//			return "[DOC" + docList.get(0) + "]";
-//		}
-//
-//		StringBuffer result = new StringBuffer("[");
-//		for (int i = 0; i < docList.size() - 1; i++) {
-//			result.append("DOC" + docList.get(i) + ", ");
-//		}
-//		result.append("DOC" + docList.get(docList.size() - 1));
-//		result.append("]");
-//		return result.toString();
-//	}
 
 	/**
 	 * This method returns a static list of search queries.

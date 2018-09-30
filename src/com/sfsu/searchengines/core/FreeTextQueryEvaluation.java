@@ -1,19 +1,23 @@
 package com.sfsu.searchengines.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.sfsu.searchengines.model.DocumentRank;
 
 public class FreeTextQueryEvaluation 
 {
 
-	public Map<Integer, Double> getDocumentRanking(Set<String> searchTerms, 
+	public List<DocumentRank> getDocumentRanking(Set<String> searchTerms, 
 			Set<Integer> documentSet,
 			PositionalIndex positionalIndex) 
 	{
 		System.out.println(searchTerms);
 		System.out.println(documentSet);
-		Map<Integer, Double> documentRanking = new HashMap<>();
+		List<DocumentRank> documentRanking = new ArrayList<>();
 		for (Integer docId: documentSet)
 		{
 			double docScore = 0;
@@ -29,7 +33,7 @@ public class FreeTextQueryEvaluation
 					docScore += termWeight;
 				}
 			}
-			documentRanking.put(docId, docScore);
+			documentRanking.add(new DocumentRank(docId, docScore));
 		}
 		return documentRanking;
 	}
